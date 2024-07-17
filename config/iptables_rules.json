@@ -117,10 +117,12 @@
                   { "var": "ap-device", "type": "string", "replace": "$INTERFACE$" }
             ],
             "rules": [
+                "-P FORWARD DROP",
                 "-A INPUT -p udp -s $IPADDRESS$ -j ACCEPT",
                 "-A FORWARD -i tun+ -o $INTERFACE$ -m state --state RELATED,ESTABLISHED -j ACCEPT",
                 "-A FORWARD -i $INTERFACE$ -o tun+ -j ACCEPT",
                 "-t nat -A POSTROUTING -o tun+ -j MASQUERADE"
+           
             ]
         },
         {
@@ -133,6 +135,7 @@
                   { "var": "client-device", "type": "string", "replace": "$INTERFACE$" }
             ],
             "rules": [
+                "-P FORWARD DROP",
                 "-A INPUT -p udp -s $IPADDRESS$ -j ACCEPT",
                 "-A FORWARD -i wg+ -j ACCEPT",
                 "-t nat -A POSTROUTING -o $INTERFACE$ -j MASQUERADE"
